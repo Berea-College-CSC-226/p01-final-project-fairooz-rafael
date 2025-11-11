@@ -5,9 +5,9 @@
 ❗️Exclamation Marks ❗️indicate action items; you should remove these emoji as you complete/update the items which 
   they accompany. (This means that your final README should have no ❗️in it!)
 
-❗️**Author(s)**: Your name(s) here
+❗️**Author(s)**: Fairooz, Rafael
 
-❗️**Google Doc Link**: Your link here
+❗️**Google Doc Link**: https://docs.google.com/document/d/1TBcWua-ldKdQVddmQOZm22J62i7bgtcS_1MXITquLJs/edit?usp=sharing
 
 ---
 
@@ -15,7 +15,7 @@
 
 ❗️**Title**: `What is the title of your project? Be creative! Replace this block of text.`
 
-❗**Purpose**: `In a single sentence, describe WHAT your project will do. Replace this block of text.`
+❗**Purpose**: ``
 
 ❗️**Source Assignment(s)**: `List which original assignments you will base your project on? Replace this block of text.`
 
