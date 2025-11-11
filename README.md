@@ -13,9 +13,9 @@
 
 ## Milestone 1: Setup, Planning, Design
 
-❗️**Title**: `What is the title of your project? Be creative! Replace this block of text.`
+❗️**Title**: `Super system for inventory`
 
-❗**Purpose**: ``
+❗**Purpose**: `Help a company keep track of their products and implement an effective expenses sheet`
 
 ❗️**Source Assignment(s)**: `List which original assignments you will base your project on? Replace this block of text.`
 
@@ -26,8 +26,12 @@
   - Tables in markdown are not easy, so we suggest saving your CRC card as an image and including the image(s) in the 
     README. You can do this by saving an image in the repository and linking to it. See the sample CRC card below - 
     and REPLACE it with your own:
-  
-![Don't leave me in your README!](image/crc.png "Image of CRC card as an example. Upload your CRC card(s) in place of this one. ")
+  - 
+ ![product class CRC.png](../../Pictures/Screenshots/product%20class%20CRC.png "clase inventario")
+
+![UPC class CRC.png](../../Pictures/Screenshots/UPC%20class%20CRC.png "UPC")
+
+![inventory class CRC.png](../../Pictures/Screenshots/inventory%20class%20CRC.png "xyz")
 
 ❗️**Branches**: This project will **require** effective use of git. 
 
@@ -36,8 +40,8 @@ branch) as they work. When you need to bring each others branches together, do s
 into your own, following the process we've discussed in previous assignments, then re-branching out from the merged code.  
 
 ```
-    Branch 1 starting name: _____________
-    Branch 2 starting name: _____________
+    Branch 1 starting name: rafael
+    Branch 2 starting name: fairooz
 ```
 
 ### References 
@@ -46,6 +50,11 @@ into your own, following the process we've discussed in previous assignments, th
 and describe how you integrated the ideas or code into your program. This includes online sources, people who have 
 helped you, AI tools you've used, and any other resources that are not solely your own contribution. Update this 
 section as you go. DO NOT forget about it!
+
+```
+    UPC barcodes Homework 9
+    It's in your genes Homework 8
+```
 
 ---
 
