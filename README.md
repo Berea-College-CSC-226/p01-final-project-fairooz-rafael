@@ -26,12 +26,13 @@
   - Tables in markdown are not easy, so we suggest saving your CRC card as an image and including the image(s) in the 
     README. You can do this by saving an image in the repository and linking to it. See the sample CRC card below - 
     and REPLACE it with your own:
-  - 
- ![product class CRC.png](../../Pictures/Screenshots/product%20class%20CRC.png "clase inventario")
 
-![UPC class CRC.png](../../Pictures/Screenshots/UPC%20class%20CRC.png "UPC")
 
-![inventory class CRC.png](../../Pictures/Screenshots/inventory%20class%20CRC.png "xyz")
+ ![product class CRC.png](image/product%20class%20CRC.png "clase inventario")
+
+![UPC class CRC.png](image/UPC%20class%20CRC.png "UPC")
+
+![inventory class CRC.png](image/inventory%20class%20CRC.png "xyz")
 
 ❗️**Branches**: This project will **require** effective use of git. 
 
