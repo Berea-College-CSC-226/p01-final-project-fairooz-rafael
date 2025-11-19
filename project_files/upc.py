@@ -93,7 +93,7 @@ def draw_code(upc, t):
 
 
 class UPC:
-    def __init__(self, code=None, name=None, cost=None, price=None):
+    def __init__(self, code=None, name=None, cost=None, price=None, manu=None):
         if code is None:
             self.code = self.generate_random_upc()
         else:
@@ -102,6 +102,7 @@ class UPC:
         self.product_name = name
         self.product_cost = cost
         self.selling_price = price
+        self.manufacturer = manu #include manufacturer in text file info
 
     def generate_random_upc(self):
         # random first 11 digits
