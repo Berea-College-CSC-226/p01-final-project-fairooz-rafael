@@ -13,16 +13,17 @@
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
 ####################################################################################
 
-
+import os
 from product import *
 
 
 class Inventory:
     def __init__(self, products=None):
         if products is None:
-            self.products = []
+            self.products = read_products_file("products.txt")
         else:
             self.products = products
+
         self.total_earnings = 0
 
     def sell_product(self, code, quantity=1):
@@ -47,7 +48,7 @@ class Inventory:
         print("Total Earnings:", self.total_earnings)
         print("Products Sold:")
         for p in self.products:
-            sold_quantity = p.initial_stock - p.stock
+            sold_quantity = p.initial_stock - p.stock   #this is the part that updates
             print(p.product_name, ":", sold_quantity, "sold")
 
 def main():
@@ -56,18 +57,21 @@ def main():
         print(filename, "not found! Using default 'products.txt'")
         filename = "products.txt"
 
-    products = read_products_file(filename)
+    #products = read_products_file(filename)
 
-    store = Inventory(products)
+    store = Inventory()
 
-    store.show_inventory()
 
-    code = input("Enter barcode to sell: ")
-    quantity = int(input("Enter quantity to sell: "))
-    store.sell_product(code, quantity)
+    for i in range(10):
 
-    store.show_inventory()
-    store.show_summary()
+        store.show_inventory()
+
+        code = input("Enter barcode to sell: ")
+        quantity = int(input("Enter quantity to sell: "))
+        store.sell_product(code, quantity)
+
+        store.show_inventory()
+        store.show_summary()
 
 
 if __name__ == "__main__":

@@ -63,7 +63,7 @@ def read_products_file(filename):
                     product_data.append(value)
 
                 p = Product(code=product_data[5], name=product_data[0], cost=product_data[1],
-                            price=product_data[2], manu=product_data[3], stock=product_data[4])
+                            price=product_data[2], manu=product_data[3], stock=product_data[4])  #the object is being created with the file values
                 products.append(p)
 
         return products
@@ -74,7 +74,7 @@ def main():
             print(filename, "not found! Using default 'products.txt'")
             filename = "products.txt"
 
-        products = read_products_file(filename)
+        products = read_products_file(filename)   #right here we need to do the cnnection with the inventory class
 
         print("Products available:")
         for p in products:
