@@ -1,0 +1,22 @@
+3
+Place:Dhaka,Bangladesh
+Description:My hometown
+Latitude:23.750655
+Longitude:90.423282
+Color:blue
+Place: Kyoto, Japan
+Description: A city I want to visit
+Latitude: 35.0116
+Longitude: 135.7681
+Color:pink
+Place:Reykjavik, Iceland
+Description:Place I'd love to visit
+Latitude:64.147210
+Longitude:-21.942400
+Color:red
+
+
+# NOTES:
+# 1) The first number represents the number of entries in the file. Make sure you update that number if you add more.
+# 2) No spaces between entries! The code doesn't handle blank lines.
+# 3) Don't forget the type of data for each line as you create the code
