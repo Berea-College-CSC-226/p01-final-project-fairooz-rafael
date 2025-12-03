@@ -43,17 +43,19 @@ class Inventory:
 
     def check_inventory(self):
         for product in self.products: #product is a Product object
-            if product[1] in self.accumulator:
-                self.accumulator[product[1]] += 1
+            if product.product_name in self.accumulator:
+                self.accumulator[product.product_name] += 1
             else:
-                self.accumulator[product[1]] = 1
+                self.accumulator[product.product_name] = 1
 
             #in order to make stock a value that can be modified it needs to be part of the class
 
 
     def sell_product(self, code, quantity=1):
-        for product in self.products:
+        for product in self.products: #self.products = list of all products
             if product.code == code: #this is the part where scanning the UPC barcode would happen because otherwise it's pointless to use the code
+                #since the product is inside a list we can easily drop the product from this list, now what about the text file?
+                # this part must read through the text file again?
                 if product.update_stock(quantity):
                     self.total_earnings += product.selling_price * quantity
                     print(quantity, product.product_name, "sold")
@@ -83,17 +85,22 @@ def main():
         print(filename, "not found! Using default 'products.txt'")
         filename = "products.txt"
 
-    products = read_products_file(filename)
+    #products = read_products_file(filename)
 
-    store = Inventory(products)
+    store = Inventory()
 
     store.show_inventory()
+    store.check_inventory()
+    print(store.accumulator) #reading inventory working properly
+
 
     code = input("Enter barcode to sell: ")
     quantity = int(input("Enter quantity to sell: "))
     store.sell_product(code, quantity)
 
     store.show_inventory()
+
+
     store.show_summary()
 
 

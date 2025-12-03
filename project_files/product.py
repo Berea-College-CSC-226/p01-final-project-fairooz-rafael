@@ -48,13 +48,17 @@ def read_products_file(filename):
                         value = float(value)
                     elif key == "Stock":
                         value = int(value)
+                    elif key == "Manufacturer":
+                        value = value.strip()  # STRING
 
                     product_data.append(value)
-                for i in range(product_data[4]):
+                print(product_data)
+                for j in range(product_data[4]):
                     p = Product(code=generate_random_upc(), name=product_data[0], cost=product_data[1],
-                            price=product_data[2], manu=product_data[3])
-                #one solution right now is to count the objects so making a counter that analyses the name
-                products.append(p)
+                        price=product_data[2], manu=product_data[3])
+                    products.append(p) #list containing all products
+                    p.display_info()
+                    # one solution right now is to count the objects so making a counter that analyses the name
 
         return products
 
@@ -64,7 +68,7 @@ def main():
             print(filename, "not found! Using default 'products.txt'")
             filename = "products.txt"
 
-        products = read_products_file(filename)
+        products = read_products_file(filename)  #testing the list
 
         print("Products available:")
         for p in products:
