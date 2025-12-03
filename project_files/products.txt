@@ -4,16 +4,13 @@ Cost: 300
 Price: 500
 Manufacturer: SamSi
 Stock: 15
-Code:111222333444
 Name: iPhone xoxo
 Cost: 700
 Price: 999
 Manufacturer: Apple Multiverse
 Stock: 25
-Code:222333444555
 Name: PlayStation flip
 Cost: 400
 Price: 550
 Manufacturer: Sunny
 Stock: 10
-Code:33344455566

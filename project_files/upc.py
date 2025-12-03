@@ -1,3 +1,4 @@
+
 ######################################################################
 # Author: Rafael, Fairooz
 # Username: hermozafreitasr, tasniaf
@@ -90,7 +91,19 @@ def draw_code(upc, t):
         pos+=1
     beg_end(t, 200)
 
+def generate_random_upc():
+    # random first 11 digits
+    digits = [random.randint(0, 9) for _ in range(11)]
 
+    # compute checksum
+    odds = sum(digits[i] for i in range(0, 11, 2))
+    evens = sum(digits[i] for i in range(1, 11, 2))
+    total = 3 * odds + evens
+    check_digit = (10 - (total % 10)) % 10
+
+    digits.append(check_digit)
+
+    return ''.join(str(d) for d in digits)
 
 class UPC:
     def __init__(self, code=None, name=None, cost=None, price=None, manu=None):
@@ -104,19 +117,6 @@ class UPC:
         self.selling_price = price
         self.manufacturer = manu #include manufacturer in text file info
 
-    def generate_random_upc(self):
-        # random first 11 digits
-        digits = [random.randint(0, 9) for _ in range(11)]
-
-        # compute checksum
-        odds = sum(digits[i] for i in range(0, 11, 2))
-        evens = sum(digits[i] for i in range(1, 11, 2))
-        total = 3 * odds + evens
-        check_digit = (10 - (total % 10)) % 10
-
-        digits.append(check_digit)
-
-        return ''.join(str(d) for d in digits)
 
     def is_valid_input(self):
         """

@@ -14,6 +14,8 @@
 ####################################################################################
 
 import os
+
+from project_files.upc import generate_random_upc
 from upc import UPC
 
 
@@ -51,7 +53,7 @@ def read_products_file(filename):
             for _ in range(num_products):
                 product_data = []
 
-                for i in range(6):
+                for i in range(5):
                     content = file_content.readline().strip("\n")
                     key, value = content.split(":", 1)
 
@@ -62,8 +64,8 @@ def read_products_file(filename):
 
                     product_data.append(value)
 
-                p = Product(code=product_data[5], name=product_data[0], cost=product_data[1],
-                            price=product_data[2], manu=product_data[3], stock=product_data[4])  #the object is being created with the file values
+                p = Product(code=generate_random_upc(), name=product_data[0], cost=product_data[1],
+                            price=product_data[2], manu=product_data[3], stock=product_data[4])
                 products.append(p)
 
         return products
@@ -74,7 +76,7 @@ def main():
             print(filename, "not found! Using default 'products.txt'")
             filename = "products.txt"
 
-        products = read_products_file(filename)   #right here we need to do the cnnection with the inventory class
+        products = read_products_file(filename)
 
         print("Products available:")
         for p in products:

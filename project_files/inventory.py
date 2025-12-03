@@ -13,19 +13,20 @@
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
 ####################################################################################
 
-import os
+
 from product import *
 
 
 class Inventory:
     def __init__(self, products=None):
         if products is None:
-            self.products = read_products_file("products.txt")
+            self.products = read_products_file("products.txt")  #initial changes of generating the list of objects from here
         else:
             self.products = products
-
         self.total_earnings = 0
 
+    # def get_all(self):
+    #     return list(self.products)
     def sell_product(self, code, quantity=1):
         for product in self.products:
             if product.code == code:
@@ -48,7 +49,7 @@ class Inventory:
         print("Total Earnings:", self.total_earnings)
         print("Products Sold:")
         for p in self.products:
-            sold_quantity = p.initial_stock - p.stock   #this is the part that updates
+            sold_quantity = p.initial_stock - p.stock
             print(p.product_name, ":", sold_quantity, "sold")
 
 def main():
@@ -62,16 +63,14 @@ def main():
     store = Inventory()
 
 
-    for i in range(10):
+    store.show_inventory()
 
-        store.show_inventory()
+    code = input("Enter barcode to sell: ")
+    quantity = int(input("Enter quantity to sell: "))
+    store.sell_product(code, quantity)
 
-        code = input("Enter barcode to sell: ")
-        quantity = int(input("Enter quantity to sell: "))
-        store.sell_product(code, quantity)
-
-        store.show_inventory()
-        store.show_summary()
+    store.show_inventory()
+    store.show_summary()
 
 
 if __name__ == "__main__":
