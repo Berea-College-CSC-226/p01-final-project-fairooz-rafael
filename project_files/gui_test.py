@@ -1,3 +1,18 @@
+######################################################################
+# Author: Rafael, Fairooz
+# Username: hermozafreitasr, tasniaf
+#
+# Purpose: Create the graphic interface that contains all the functions for our program
+#
+######################################################################
+# Acknowledgements:
+#
+# None: Original work
+
+# licensed under a Creative Commons
+# Attribution-Noncommercial-Share Alike 3.0 United States License.
+####################################################################################
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -22,12 +37,15 @@ class ShoppingApp:
     # Page 1 — User Type Selection
     # -----------------------------
     def build_user_select(self):
-        self.clear()
+        self.clear() #whipes all the elements we had before to write something like a new screen
 
         tk.Label(self.root, text="Select User Type", font=("Arial", 20)).pack(pady=20)
 
         tk.Button(self.root, text="Customer", width=20, height=2,
                   command=self.build_customer_main).pack(pady=10)
+
+        #implement the company user here
+            #also create the method for login in before seeing a company's interface
 
     # -----------------------------
     # Page 2 — Customer Shopping Page
@@ -80,6 +98,8 @@ class ShoppingApp:
 
         # Reduce stock in inventory
         product.update_stock(1)
+        #global have_cart = True
+        #send a signal that tells us whether or not there's something in the cart, so that the stock update avoid fake purchases
         self.cart.append(product)
 
         messagebox.showinfo("Added", f"{product.product_name} added to cart!")
@@ -110,6 +130,7 @@ class ShoppingApp:
                   command=lambda: self.checkout(total_price)).pack(pady=5)
 
         tk.Button(self.root, text="Back", command=self.build_customer_main).pack(pady=5)
+        ##here check if there's something in the cart and hasn't been paid, wipe that off
 
     # -----------------------------
     # Final Checkout
