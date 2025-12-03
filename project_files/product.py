@@ -14,30 +14,19 @@
 ####################################################################################
 
 import os
-from upc import UPC
+from upc import *
 
 
 class Product(UPC):
-    def __init__(self, code=None, name=None, cost=None, price=None, manu=None, stock=0):
+    def __init__(self, code=None, name=None, cost=None, price=None, manu=None):
         super().__init__(code, name, cost, price, manu)  # inherit UPC attributes
-        self.stock = stock
-        self.initial_stock = stock
-
-    def update_stock(self, quantity):
-
-        if quantity <= self.stock:
-            self.stock -= quantity
-            return True
-        else:
-            print("Not available")
-            return False
+    #this initializer may be envain
 
     def display_info(self):
 
         return ("Name:", self.product_name,
                 "Price:", self.selling_price,
-                "Barcode:", self.code,
-                "Stock:", self.stock)
+                "Barcode:", self.code)
 
 def read_products_file(filename):
         if not os.path.isfile(filename):
@@ -51,7 +40,7 @@ def read_products_file(filename):
             for _ in range(num_products):
                 product_data = []
 
-                for i in range(6):
+                for i in range(5):
                     content = file_content.readline().strip("\n")
                     key, value = content.split(":", 1)
 
@@ -61,9 +50,10 @@ def read_products_file(filename):
                         value = int(value)
 
                     product_data.append(value)
-
-                p = Product(code=product_data[5], name=product_data[0], cost=product_data[1],
-                            price=product_data[2], manu=product_data[3], stock=product_data[4])
+                for i in range(product_data[4]):
+                    p = Product(code=generate_random_upc(), name=product_data[0], cost=product_data[1],
+                            price=product_data[2], manu=product_data[3])
+                #one solution right now is to count the objects so making a counter that analyses the name
                 products.append(p)
 
         return products
