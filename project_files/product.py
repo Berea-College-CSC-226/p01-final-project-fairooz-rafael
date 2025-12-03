@@ -14,19 +14,32 @@
 ####################################################################################
 
 import os
-from upc import *
+
+from project_files.upc import generate_random_upc
+from upc import UPC
 
 
 class Product(UPC):
-    def __init__(self, code=None, name=None, cost=None, price=None, manu=None):
+    def __init__(self, code=None, name=None, cost=None, price=None, manu=None, stock=0):
         super().__init__(code, name, cost, price, manu)  # inherit UPC attributes
-    #this initializer may be envain
+        self.stock = stock
+        self.initial_stock = stock
+
+    def update_stock(self, quantity):
+
+        if quantity <= self.stock:
+            self.stock -= quantity
+            return True
+        else:
+            print("Not available")
+            return False
 
     def display_info(self):
 
         return ("Name:", self.product_name,
                 "Price:", self.selling_price,
-                "Barcode:", self.code)
+                "Barcode:", self.code,
+                "Stock:", self.stock)
 
 def read_products_file(filename):
         if not os.path.isfile(filename):
@@ -48,17 +61,12 @@ def read_products_file(filename):
                         value = float(value)
                     elif key == "Stock":
                         value = int(value)
-                    elif key == "Manufacturer":
-                        value = value.strip()  # STRING
 
                     product_data.append(value)
-                print(product_data)
-                for j in range(product_data[4]):
-                    p = Product(code=generate_random_upc(), name=product_data[0], cost=product_data[1],
-                        price=product_data[2], manu=product_data[3])
-                    products.append(p) #list containing all products
-                    p.display_info()
-                    # one solution right now is to count the objects so making a counter that analyses the name
+
+                p = Product(code=generate_random_upc(), name=product_data[0], cost=product_data[1],
+                            price=product_data[2], manu=product_data[3], stock=product_data[4])
+                products.append(p)
 
         return products
 
@@ -68,7 +76,7 @@ def main():
             print(filename, "not found! Using default 'products.txt'")
             filename = "products.txt"
 
-        products = read_products_file(filename)  #testing the list
+        products = read_products_file(filename)
 
         print("Products available:")
         for p in products:

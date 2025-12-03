@@ -3,14 +3,14 @@ Name: SamSi TV
 Cost: 300
 Price: 500
 Manufacturer: SamSi
-Stock: 7
+Stock: 15
 Name: iPhone xoxo
 Cost: 700
 Price: 999
 Manufacturer: Apple Multiverse
-Stock: 10
+Stock: 25
 Name: PlayStation flip
 Cost: 400
 Price: 550
 Manufacturer: Sunny
-Stock: 6
+Stock: 10
