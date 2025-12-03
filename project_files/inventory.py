@@ -25,6 +25,8 @@ class Inventory:
             self.products = products
         self.total_earnings = 0
 
+    # def get_all(self):
+    #     return list(self.products)
     def sell_product(self, code, quantity=1):
         for product in self.products:
             if product.code == code:

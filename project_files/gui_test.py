@@ -1,35 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-
-# -----------------------------
-# Product Class (simplified UPC class)
-# -----------------------------
-class Product:
-    def __init__(self, code, name, price):
-        self.code = code
-        self.name = name
-        self.price = price
-
-    def __repr__(self):
-        return f"{self.name} (${self.price})"
-
-
-# -----------------------------
-# Inventory Class
-# -----------------------------
-class Inventory:
-    def __init__(self):
-        # Preloaded items (you will later load from text file)
-        self.products = {
-            "123456789012": Product("123456789012", "Milk", 3.99),
-            "987654321098": Product("987654321098", "Bread", 2.49),
-            "111222333444": Product("111222333444", "Eggs", 4.50),
-            "555666777888": Product("555666777888", "Cheese", 5.25),
-        }
-
-    def get_all(self):
-        return list(self.products.values())
+from product import Product, read_products_file
+from inventory import Inventory
 
 
 # -----------------------------
@@ -40,7 +13,7 @@ class ShoppingApp:
         self.root = root
         self.root.title("Shopping System Prototype")
 
-        self.inventory = Inventory()
+        self.inventory = Inventory()   # uses your file-based loading
         self.cart = []
 
         self.build_user_select()
@@ -56,8 +29,6 @@ class ShoppingApp:
         tk.Button(self.root, text="Customer", width=20, height=2,
                   command=self.build_customer_main).pack(pady=10)
 
-        tk.Button(self.root, text="Company (disabled)", width=20, height=2, state="disabled").pack(pady=10)
-
     # -----------------------------
     # Page 2 — Customer Shopping Page
     # -----------------------------
@@ -72,20 +43,27 @@ class ShoppingApp:
         # Products List
         tk.Label(frame, text="Available Products:").grid(row=0, column=0)
 
-        self.product_list = tk.Listbox(frame, width=40, height=8)
+        self.product_list = tk.Listbox(frame, width=60, height=10)
         self.product_list.grid(row=1, column=0)
 
-        for p in self.inventory.get_all():
-            self.product_list.insert(tk.END, f"{p.code} | {p.name} - ${p.price}")
+        # Load product info into list
+        for p in self.inventory.products:
+            line = (
+                f"{p.code} | {p.product_name} - ${p.selling_price:.2f} "
+                f"| Stock: {p.stock}"
+            )
+            self.product_list.insert(tk.END, line)
 
         tk.Button(frame, text="Add to Cart", command=self.add_to_cart).grid(row=2, column=0, pady=10)
 
-        # View Cart
         tk.Button(self.root, text="View Cart / Checkout", width=20,
                   command=self.build_cart_page).pack(pady=5)
 
         tk.Button(self.root, text="Back", command=self.build_user_select).pack(pady=5)
 
+    # -----------------------------
+    # Add Selected Product to Cart
+    # -----------------------------
     def add_to_cart(self):
         selection = self.product_list.curselection()
         if not selection:
@@ -93,10 +71,21 @@ class ShoppingApp:
             return
 
         index = selection[0]
-        product = self.inventory.get_all()[index]
+        product = self.inventory.products[index]
+
+        # Check stock
+        if product.stock <= 0:
+            messagebox.showerror("Out of Stock", f"{product.product_name} is unavailable.")
+            return
+
+        # Reduce stock in inventory
+        product.update_stock(1)
         self.cart.append(product)
 
-        messagebox.showinfo("Added", f"{product.name} added to cart!")
+        messagebox.showinfo("Added", f"{product.product_name} added to cart!")
+
+        # Refresh product list
+        self.build_customer_main()
 
     # -----------------------------
     # Page 3 — Cart and Checkout
@@ -106,14 +95,14 @@ class ShoppingApp:
 
         tk.Label(self.root, text="Your Cart", font=("Arial", 16)).pack(pady=10)
 
-        cart_box = tk.Listbox(self.root, width=40, height=8)
+        cart_box = tk.Listbox(self.root, width=50, height=8)
         cart_box.pack()
 
         total_price = 0
 
         for p in self.cart:
-            cart_box.insert(tk.END, f"{p.name} - ${p.price}")
-            total_price += p.price
+            cart_box.insert(tk.END, f"{p.product_name} - ${p.selling_price:.2f}")
+            total_price += p.selling_price
 
         tk.Label(self.root, text=f"Total: ${total_price:.2f}", font=("Arial", 14)).pack(pady=10)
 
@@ -122,6 +111,9 @@ class ShoppingApp:
 
         tk.Button(self.root, text="Back", command=self.build_customer_main).pack(pady=5)
 
+    # -----------------------------
+    # Final Checkout
+    # -----------------------------
     def checkout(self, total):
         messagebox.showinfo("Thank you!", f"Purchase complete!\nTotal: ${total:.2f}")
         self.cart = []
@@ -140,6 +132,6 @@ class ShoppingApp:
 # -----------------------------
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("400x500")
+    root.geometry("450x550")
     app = ShoppingApp(root)
     root.mainloop()
