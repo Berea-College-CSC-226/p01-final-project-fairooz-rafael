@@ -67,7 +67,15 @@ section as you go. DO NOT forget about it!
 What has surprised you so far? Describe your general feelings. Be honest with yourself; this section is for you, not me.
 
 ```
-    **Replace this text with your reflection
+   We created all the class we needed till now as for the program except GUI part. The program should function to read 
+   product data and show summary to both customer and company and it should work for purchase and update. Additionally,
+   we worked on GUI for customer interface where they can see the inventory list and add to cart or purchase products.
+   
+   I think we're in track, not behind not ahead. I think the way functionality works suprised us the most. Due to hw11, 
+   when we broke down our program into subtask we figured it out how we could work with a few classes than we thought initially.
+   
+   We're excited to complete our program and see how it comes out. Maybe works with more advancement in future if it 
+   goes according to our preference
 ```
 
 ---

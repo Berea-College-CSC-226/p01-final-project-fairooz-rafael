@@ -156,3 +156,5 @@ if __name__ == "__main__":
     root.geometry("450x550")
     app = ShoppingApp(root)
     root.mainloop()
+
+
