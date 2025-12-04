@@ -101,6 +101,27 @@ class ShoppingApp:
     #
     #inventory:
     #
+    def build_company_inventory(self):
+        self.clear()
+        tk.Label(self.root, text="Inventory Overview", font=("Arial", 18)).pack(pady=10)
+
+        box = tk.Listbox(self.root, width=60, height=12)
+        box.pack(pady=5)
+
+        for p in self.inventory.products:
+            line = f"{p.product_name} | ${p.selling_price:.2f} | Stock: {p.stock}"
+            box.insert(tk.END, line)
+
+        tk.Button(self.root, text="Back", command=self.build_company_main).pack(pady=10)
+
+    def build_sales_summary(self):
+        self.clear()
+        tk.Label(self.root, text="Sales Summary", font=("Arial", 18)).pack(pady=10)
+
+        tk.Label(self.root, text=f"Total Earnings: ${self.inventory.total_earnings:.2f}",
+                 font=("Arial", 14)).pack(pady=5)
+
+        tk.Button(self.root, text="Back", command=self.build_company_main).pack(pady=20)
 
     # -----------------------------
     # Page 2 — Customer Shopping Page
