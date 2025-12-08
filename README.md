@@ -67,7 +67,15 @@ section as you go. DO NOT forget about it!
 What has surprised you so far? Describe your general feelings. Be honest with yourself; this section is for you, not me.
 
 ```
-    **Replace this text with your reflection
+   We created all the class we needed till now as for the program except GUI part. The program should function to read 
+   product data and show summary to both customer and company and it should work for purchase and update. Additionally,
+   we worked on GUI for customer interface where they can see the inventory list and add to cart or purchase products.
+   
+   I think we're in track, not behind not ahead. I think the way functionality works suprised us the most. Due to hw11, 
+   when we broke down our program into subtask we figured it out how we could work with a few classes than we thought initially.
+   
+   We're excited to complete our program and see how it comes out. Maybe works with more advancement in future if it 
+   goes according to our preference
 ```
 
 ---
@@ -76,14 +84,15 @@ What has surprised you so far? Describe your general feelings. Be honest with yo
 
 ❗Indicate what percentage of the project you have left to complete and how confident you feel. 
 
-❗️**Completion Percentage**: `0 - 100%`
+❗️**Completion Percentage**: `75%`
 
 ❗️**Confidence**: Describe how confident you feel about completing this project, and why. Then, describe some 
   strategies you can employ to increase the likelihood that you'll be successful in completing this project 
   before the deadline.
 
 ```
-    **Replace this with your reflection
+   We are pretty confident that we'll be able to complete it on time. At this point, we've all the class and methods working, we only need refinement and testing; also some improvement for GUI.
+   To make it successful we will be creating issues as our checklist and even create the extra ideas as optional, if we have time, we will complete those after our main completion. 
 ```
 
 ---

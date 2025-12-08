@@ -25,8 +25,8 @@ class Inventory:
             self.products = products
         self.total_earnings = 0
 
-    # def get_all(self):
-    #     return list(self.products)
+    def get_all(self):
+        return list(self.products)
     def sell_product(self, code, quantity=1):
         for product in self.products:
             if product.code == code:
@@ -58,7 +58,7 @@ def main():
         print(filename, "not found! Using default 'products.txt'")
         filename = "products.txt"
 
-    #products = read_products_file(filename)
+    products = read_products_file(filename)
 
     store = Inventory()
 
