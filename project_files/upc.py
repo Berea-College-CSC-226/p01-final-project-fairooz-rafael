@@ -1,4 +1,3 @@
-
 ######################################################################
 # Author: Rafael, Fairooz
 # Username: hermozafreitasr, tasniaf
