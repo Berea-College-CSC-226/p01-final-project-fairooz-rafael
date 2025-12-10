@@ -12,7 +12,6 @@
 # licensed under a Creative Commons
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
 ####################################################################################
-# shopping_gui.py
 import tkinter as tk
 from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
@@ -105,6 +104,8 @@ class ShoppingApp:
 
         tk.Button(self.root, text="View Expense Pie Chart", width=20, height=2,
                   command=self.build_company_expenses_chart).pack(pady=10)
+        tk.Button(self.root, text="Add New Product", width=20, height=2,
+                  command=self.build_add_product_page).pack(pady=10)
 
         tk.Button(self.root, text="Back", width=20,
                   command=self.build_user_select).pack(pady=20)
@@ -171,6 +172,55 @@ class ShoppingApp:
 
         tk.Button(self.root, text="Back", command=self.build_company_main).pack(pady=10)
 
+    # ------------------------------------------------------------
+    # add new product
+    # ------------------------------------------------------------
+    def build_add_product_page(self):
+        self.clear()
+
+        tk.Label(self.root, text="Add New Product", font=("Arial", 18)).pack(pady=15)
+
+        frame = tk.Frame(self.root)
+        frame.pack(pady=10)
+
+        labels = ["Name:", "Cost:", "Price:", "Manufacturer:", "Initial Stock:"]
+        entries = []
+
+        for i, text in enumerate(labels):
+            tk.Label(frame, text=text).grid(row=i, column=0, sticky="e", padx=5, pady=5)
+            entry = tk.Entry(frame)
+            entry.grid(row=i, column=1, padx=5, pady=5)
+            entries.append(entry)
+
+        def submit():
+            try:
+                name = entries[0].get()
+                cost = float(entries[1].get())
+                price = float(entries[2].get())
+                manu = entries[3].get()
+                stock = int(entries[4].get())
+
+                if name.strip() == "" or manu.strip() == "":
+                    raise ValueError("Fields cannot be empty.")
+
+                new_p = self.inventory.add_product(name, cost, price, manu, stock)
+
+                messagebox.showinfo(
+                    "Success",
+                    f"Product added!\nUPC: {new_p.code}\nName: {new_p.product_name}"
+                )
+
+                # Refresh company and user data
+                self.company.products = self.inventory.products
+                self.company.total_earnings = self.inventory.total_earnings
+
+                self.build_company_main()
+
+            except Exception as e:
+                messagebox.showerror("Error", f"Invalid input: {e}")
+
+        tk.Button(self.root, text="Add Product", width=20, command=submit).pack(pady=15)
+        tk.Button(self.root, text="Back", width=20, command=self.build_company_main).pack(pady=5)
 
     # ------------------------------------------------------------
     # Customer Main Page

@@ -49,7 +49,41 @@ class Inventory:
             sold = p.initial_stock - p.stock
             print(p.upc.product_name, ":", sold, "sold")
 
+    # def add_product(self, name, cost, price, manu, stock):
+    #     # Auto-generate UPC (your preference from UPC class)
+    #     new_p = Product(
+    #         code=None,     # UPC class will auto-generate inside
+    #         name=name,
+    #         cost=cost,
+    #         price=price,
+    #         manu=manu,
+    #         stock=stock
+    #     )
+    #     self.products.append(new_p)
+    #     return new_p
 
+    def add_product(self, name, cost, price, manu, stock):
+        # Validation for tests
+        if not name or not manu:
+            raise ValueError("Name and manufacturer cannot be empty.")
+
+        if cost < 0 or price < 0:
+            raise ValueError("Cost and price must be positive.")
+
+        if stock < 0:
+            raise ValueError("Stock cannot be negative.")
+
+        new_p = Product(
+            code=None,
+            name=name,
+            cost=cost,
+            price=price,
+            manu=manu,
+            stock=stock
+        )
+
+        self.products.append(new_p)
+        return new_p
 def main():
     products = read_products_file("products.txt")
     store = Inventory(products)
