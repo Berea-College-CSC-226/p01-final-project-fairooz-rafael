@@ -21,9 +21,7 @@ from interating_new_features import ShoppingApp
 import tkinter as tk
 
 
-# ============================================================
-#   INVENTORY TESTS
-# ============================================================
+
 
 def test_inventory_initial_load():
     inv = Inventory()
@@ -67,9 +65,7 @@ def test_add_product_invalid_values():
         inv.add_product("Valid", 1.0, 1.0, "X", -5)
 
 
-# ============================================================
-#   COMPANY EXPENSES TESTS
-# ============================================================
+
 
 def test_company_expenses_consistency():
     inv = Inventory()
@@ -89,9 +85,6 @@ def test_company_expenses_consistency():
     assert 98 <= total <= 102
 
 
-# ============================================================
-#   SHOPPING APP (LOGIC ONLY) TESTS
-# ============================================================
 
 def test_cart_addition_and_checkout():
     root = tk.Tk()               # GUI required for instantiation

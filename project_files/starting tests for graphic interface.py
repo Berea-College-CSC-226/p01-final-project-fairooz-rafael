@@ -16,9 +16,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 
-# -----------------------------
-# Product Class (simplified UPC class)
-# -----------------------------
+
 class Product:
     def __init__(self, code, name, price):
         self.code = code
@@ -29,9 +27,6 @@ class Product:
         return f"{self.name} (${self.price})"
 
 
-# -----------------------------
-# Inventory Class
-# -----------------------------
 class Inventory:
     def __init__(self):
         # Preloaded items
@@ -46,9 +41,7 @@ class Inventory:
         return list(self.products.values())
 
 
-# -----------------------------
-# Main GUI Application
-# -----------------------------
+
 class ShoppingApp:
     def __init__(self, root):
         self.root = root
@@ -59,9 +52,7 @@ class ShoppingApp:
 
         self.build_user_select()
 
-    # -----------------------------
-    # Page 1 — User Type Selection
-    # -----------------------------
+
     def build_user_select(self):
         self.clear()
 
@@ -72,9 +63,6 @@ class ShoppingApp:
 
         tk.Button(self.root, text="Company (disabled)", width=20, height=2, state="disabled").pack(pady=10)
 
-    # -----------------------------
-    # Page 2 — Customer Shopping Page
-    # -----------------------------
     def build_customer_main(self):
         self.clear()
 
@@ -112,9 +100,6 @@ class ShoppingApp:
 
         messagebox.showinfo("Added", f"{product.name} added to cart!")
 
-    # -----------------------------
-    # Page 3 — Cart and Checkout
-    # -----------------------------
     def build_cart_page(self):
         self.clear()
 
@@ -141,17 +126,12 @@ class ShoppingApp:
         self.cart = []
         self.build_customer_main()
 
-    # -----------------------------
-    # Utility: Clear Screen
-    # -----------------------------
+
     def clear(self):
         for widget in self.root.winfo_children():
             widget.destroy()
 
 
-# -----------------------------
-# Run App
-# -----------------------------
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("400x500")

@@ -23,9 +23,6 @@ from product import Product, read_products_file
 from graphics_interface_for_company import CompanyExpenses
 
 
-# ============================================================
-# Main Shopping GUI Application
-# ============================================================
 class ShoppingApp:
     def __init__(self, root):
         self.root = root
@@ -44,9 +41,7 @@ class ShoppingApp:
 
         self.build_user_select()
 
-    # ------------------------------------------------------------
-    # Helper to create consistent styled buttons
-    # ------------------------------------------------------------
+
     def app_button(self, master, text, command):
         return tk.Button(
             master,
@@ -61,9 +56,6 @@ class ShoppingApp:
             command=command
         )
 
-    # ------------------------------------------------------------
-    # Page 1 — User Type Selection
-    # ------------------------------------------------------------
     def build_user_select(self):
         self.clear()
         frame = tk.Frame(self.root, bg="#2c2c2c")
@@ -75,9 +67,7 @@ class ShoppingApp:
         self.app_button(frame, "Customer", self.build_customer_main).pack(pady=15)
         self.app_button(frame, "Company", self.build_company_login).pack(pady=15)
 
-    # ------------------------------------------------------------
-    # Company Login
-    # ------------------------------------------------------------
+
     def build_company_login(self):
         self.clear()
         frame = tk.Frame(self.root, bg="#2c2c2c")
@@ -109,9 +99,7 @@ class ShoppingApp:
         self.app_button(frame, "Login", attempt_login).pack(pady=15)
         self.app_button(frame, "Back", self.build_user_select).pack(pady=10)
 
-    # ------------------------------------------------------------
-    # Company Dashboard
-    # ------------------------------------------------------------
+
     def build_company_main(self):
         self.clear()
         frame = tk.Frame(self.root, bg="#2c2c2c")
@@ -126,9 +114,8 @@ class ShoppingApp:
         self.app_button(frame, "Add New Product", self.build_add_product_page).pack(pady=10)
         self.app_button(frame, "Finish Session", self.build_user_select).pack(pady=10)
 
-    # ------------------------------------------------------------
-    # Add New Product Page
-    # ------------------------------------------------------------
+
+
     # def build_add_product_page(self):
     #     self.clear()
     #     tk.Label(self.root, text="Add New Product", font=("Arial", 18), bg="#2c2c2c", fg="white").pack(pady=15)
@@ -171,9 +158,7 @@ class ShoppingApp:
     #     self.app_button(frame, "Add Product", submit).pack(pady=15)
     #     self.app_button(frame, "Back", self.build_company_main).pack(pady=5)
 
-    # ------------------------------------------------------------
-    # Company Inventory
-    # ------------------------------------------------------------
+
     def build_company_inventory(self):
         self.clear()
         tk.Label(self.root, text="Inventory Overview", font=("Arial", 18), bg="#2c2c2c", fg="white").pack(pady=10)
@@ -199,9 +184,9 @@ class ShoppingApp:
 
         self.app_button(self.root, "Back", self.build_company_main).pack(pady=10)
 
-    # ------------------------------------------------------------
-    # Sales Summary
-    # ------------------------------------------------------------
+
+
+
     def build_sales_summary(self):
         self.clear()
         tk.Label(self.root, text="Sales Summary", font=("Arial", 18), fg="white", bg="#1c1c1c").pack(pady=10)
@@ -209,9 +194,7 @@ class ShoppingApp:
                  font=("Arial", 14), fg="white", bg="#1c1c1c").pack(pady=5)
         self.app_button(self.root, "Back", self.build_company_main).pack(pady=20)
 
-    # ------------------------------------------------------------
-    # Expense Pie Chart
-    # ------------------------------------------------------------
+
     def build_company_expenses_chart(self):
         self.clear()
         tk.Label(self.root, text="Expense Distribution", font=("Arial", 18), fg="white", bg="#1c1c1c").pack(pady=10)
@@ -234,9 +217,7 @@ class ShoppingApp:
 
         self.app_button(self.root, "Back", self.build_company_main).pack(pady=10)
 
-    # ------------------------------------------------------------
-    # Customer Page
-    # ------------------------------------------------------------
+
     def build_customer_main(self):
         self.clear()
         tk.Label(self.root, text="Welcome, Customer!", font=("Arial", 16), fg="white", bg="#1c1c1c").pack(pady=10)
@@ -265,9 +246,6 @@ class ShoppingApp:
         self.app_button(self.root, "View Cart / Checkout", self.build_cart_page).pack(pady=5)
         self.app_button(self.root, "Back", self.build_user_select).pack(pady=5)
 
-    # ------------------------------------------------------------
-    # Add to Cart
-    # ------------------------------------------------------------
     def add_to_cart(self):
         selection = self.product_list.curselection()
         if not selection:
@@ -277,7 +255,7 @@ class ShoppingApp:
         index = selection[0]
         product = self.inventory.products[index]
 
-        # Check if already in cart
+
         for item in self.cart:
             if item["product"] == product:
                 item["quantity"] += 1
@@ -291,9 +269,7 @@ class ShoppingApp:
         messagebox.showinfo("Added", f"{product.product_name} added to cart!")
         self.build_customer_main()
 
-    # ------------------------------------------------------------
-    # Cart Page
-    # ------------------------------------------------------------
+
     def build_cart_page(self):
         self.clear()
         tk.Label(self.root, text="Your Cart", font=("Arial", 16), fg="white", bg="#1c1c1c").pack(pady=10)
@@ -322,7 +298,7 @@ class ShoppingApp:
         tk.Button(self.root, text="Confirm Purchase", command=lambda: self.checkout(total_price)).pack(pady=5)
         tk.Button(self.root, text="Back", command=self.build_customer_main).pack(pady=5)
 
-    ##
+
 
     def build_add_product_page(self):
         self.clear()
@@ -370,9 +346,6 @@ class ShoppingApp:
         self.app_button(btn_frame, "Add Product", submit).pack(side="left", padx=10)
         self.app_button(btn_frame, "Back", self.build_company_main).pack(side="left", padx=10)
 
-    # ------------------------------------------------------------
-    # Change quantity helper
-    # ------------------------------------------------------------
     def change_quantity(self, idx, delta):
         item = self.cart[idx]
         if delta > 0:
@@ -388,26 +361,19 @@ class ShoppingApp:
                 self.cart.pop(idx)
         self.build_cart_page()
 
-    # ------------------------------------------------------------
-    # Checkout
-    # ------------------------------------------------------------
+
     def checkout(self, total):
         messagebox.showinfo("Thank you!", f"Purchase complete!\nTotal: ${total:.2f}")
         self.inventory.total_earnings += total
         self.cart = []
         self.build_customer_main()
 
-    # ------------------------------------------------------------
-    # Utility — Clear Screen
-    # ------------------------------------------------------------
+
     def clear(self):
         for widget in self.root.winfo_children():
             widget.destroy()
 
 
-# ============================================================
-# Run App
-# ============================================================
 if __name__ == "__main__":
     root = tk.Tk()
     root.configure(bg="#1c1c1c")
