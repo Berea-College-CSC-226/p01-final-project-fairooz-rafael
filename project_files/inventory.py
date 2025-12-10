@@ -2,12 +2,12 @@
 # Author: Rafael, Fairooz
 # Username: hermozafreitasr, tasniaf
 #
-# Purpose: Create a barcode class to have it associated with a unique product in an inventory store
+# Purpose: Create the class that contains all the product objects of the store, also initializing the inventory with file from products.txt
 #
 ######################################################################
 # Acknowledgements:
 #
-# None: Original work
+# Revised with ChatGPT
 
 # licensed under a Creative Commons
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
@@ -74,7 +74,7 @@ class Inventory:
             raise ValueError("Stock cannot be negative.")
 
         new_p = Product(
-            code=None,
+            code=generate_random_upc(),
             name=name,
             cost=cost,
             price=price,

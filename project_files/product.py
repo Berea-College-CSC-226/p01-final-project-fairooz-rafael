@@ -1,17 +1,17 @@
 ######################################################################
-# Author:  FairoozRafael,
+# Author: Rafael, Fairooz
 # Username: hermozafreitasr, tasniaf
 #
-# Purpose: Create a product class to have it in an inventory store and inherit the UPC class which holds the unique barcode and details of the product
+# Purpose: Create the class skeleton for a product in the store
 #
 ######################################################################
 # Acknowledgements:
-#
-# None: Original work
+# upc class homework
 
 # licensed under a Creative Commons
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
 ####################################################################################
+
 import os
 
 from project_files.upc import generate_random_upc

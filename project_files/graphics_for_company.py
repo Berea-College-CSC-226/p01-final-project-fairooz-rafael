@@ -2,7 +2,7 @@
 # Author: Rafael, Fairooz
 # Username: hermozafreitasr, tasniaf
 #
-# Purpose: Create the graphic interface that contains all the functions for our program
+# Purpose: draw a pie graph chart using preloaded data, providing statistics to the company
 #
 ######################################################################
 # Acknowledgements:
@@ -20,7 +20,6 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from graphics_interface_for_company import *
-# ^ adjust import name if the class is in another file
 
 
 class CompanyGUI:
