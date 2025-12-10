@@ -12,14 +12,15 @@
 # licensed under a Creative Commons
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
 ####################################################################################
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from inventory import Inventory
-from product import read_products_file
-from graphics_interface_for_company import CompanyExpenses   # fixed import name
+from product import Product, read_products_file
+from graphics_interface_for_company import CompanyExpenses
 
 
 # ============================================================
@@ -29,136 +30,198 @@ class ShoppingApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Shopping System Prototype")
-        self.root.geometry("500x650")
+        self.root.configure(bg="#1c1c1c")
+        self.root.resizable(True, True)
 
-        # Load inventory once (NO LAG)
         self.inventory = Inventory()
         self.company = CompanyExpenses()
 
-        # Sync product list (CompanyExpenses inherits Inventory in this old code)
+        # Sync inventory into company tracker
         self.company.products = self.inventory.products
         self.company.total_earnings = self.inventory.total_earnings
 
-        self.cart = []   # Stores PRODUCT OBJECTS, but stock is not modified yet
+        self.cart = []  # stores {"product": Product, "quantity": int}
 
         self.build_user_select()
 
+    # ------------------------------------------------------------
+    # Helper to create consistent styled buttons
+    # ------------------------------------------------------------
+    def app_button(self, master, text, command):
+        return tk.Button(
+            master,
+            text=text,
+            width=25,
+            height=2,
+            bg="#8B0000",
+            fg="white",
+            font=("Helvetica", 12, "bold"),
+            activebackground="#A52A2A",
+            activeforeground="white",
+            command=command
+        )
 
     # ------------------------------------------------------------
     # Page 1 — User Type Selection
     # ------------------------------------------------------------
     def build_user_select(self):
         self.clear()
-        tk.Label(self.root, text="Select User Type", font=("Arial", 20)).pack(pady=25)
+        frame = tk.Frame(self.root, bg="#2c2c2c")
+        frame.pack(fill="both", expand=True, padx=20, pady=50)
 
-        tk.Button(self.root, text="Customer", width=20, height=2,
-                  command=self.build_customer_main).pack(pady=10)
+        tk.Label(frame, text="Select User Type", font=("Helvetica", 24, "bold"),
+                 bg="#2c2c2c", fg="white").pack(pady=30)
 
-        tk.Button(self.root, text="Company", width=20, height=2,
-                  command=self.build_company_login).pack(pady=10)
-
+        self.app_button(frame, "Customer", self.build_customer_main).pack(pady=15)
+        self.app_button(frame, "Company", self.build_company_login).pack(pady=15)
 
     # ------------------------------------------------------------
     # Company Login
     # ------------------------------------------------------------
     def build_company_login(self):
         self.clear()
+        frame = tk.Frame(self.root, bg="#2c2c2c")
+        frame.pack(fill="both", expand=True, padx=20, pady=50)
 
-        tk.Label(self.root, text="Company Login", font=("Arial", 18)).pack(pady=20)
+        tk.Label(frame, text="Company Login", font=("Helvetica", 20, "bold"),
+                 bg="#2c2c2c", fg="white").pack(pady=20)
 
-        frame = tk.Frame(self.root)
-        frame.pack(pady=10)
+        input_frame = tk.Frame(frame, bg="#2c2c2c")
+        input_frame.pack(pady=10)
 
-        tk.Label(frame, text="Username:").grid(row=0, column=0, sticky="e")
-        username_entry = tk.Entry(frame)
-        username_entry.grid(row=0, column=1)
+        tk.Label(input_frame, text="Username:", bg="#2c2c2c", fg="white").grid(row=0, column=0, sticky="e", padx=5, pady=5)
+        username_entry = tk.Entry(input_frame)
+        username_entry.grid(row=0, column=1, padx=5, pady=5)
 
-        tk.Label(frame, text="Password:").grid(row=1, column=0, sticky="e")
-        password_entry = tk.Entry(frame, show="*")
-        password_entry.grid(row=1, column=1)
+        tk.Label(input_frame, text="Password:", bg="#2c2c2c", fg="white").grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        password_entry = tk.Entry(input_frame, show="*")
+        password_entry.grid(row=1, column=1, padx=5, pady=5)
 
         def attempt_login():
-            if username_entry.get() == "admin" and password_entry.get() == "1234":
+            username = username_entry.get().strip()
+            password = password_entry.get().strip()
+            if username == "admin" and password == "1234":
                 messagebox.showinfo("Welcome", "Login successful.")
                 self.build_company_main()
             else:
                 messagebox.showerror("Access Denied", "Incorrect credentials.")
 
-        tk.Button(self.root, text="Login", width=18, command=attempt_login).pack(pady=10)
-        tk.Button(self.root, text="Back", width=18, command=self.build_user_select).pack(pady=5)
-
+        self.app_button(frame, "Login", attempt_login).pack(pady=15)
+        self.app_button(frame, "Back", self.build_user_select).pack(pady=10)
 
     # ------------------------------------------------------------
     # Company Dashboard
     # ------------------------------------------------------------
     def build_company_main(self):
         self.clear()
+        frame = tk.Frame(self.root, bg="#2c2c2c")
+        frame.pack(fill="both", expand=True, padx=20, pady=50)
 
-        tk.Label(self.root, text="Company Dashboard", font=("Arial", 18)).pack(pady=20)
+        tk.Label(frame, text="Company Dashboard", font=("Helvetica", 20, "bold"),
+                 bg="#2c2c2c", fg="white").pack(pady=20)
 
-        tk.Button(self.root, text="View Inventory", width=20, height=2,
-                  command=self.build_company_inventory).pack(pady=10)
-
-        tk.Button(self.root, text="View Sales Summary", width=20, height=2,
-                  command=self.build_sales_summary).pack(pady=10)
-
-        tk.Button(self.root, text="View Expense Pie Chart", width=20, height=2,
-                  command=self.build_company_expenses_chart).pack(pady=10)
-        tk.Button(self.root, text="Add New Product", width=20, height=2,
-                  command=self.build_add_product_page).pack(pady=10)
-
-        tk.Button(self.root, text="Back", width=20,
-                  command=self.build_user_select).pack(pady=20)
-
+        self.app_button(frame, "View Inventory", self.build_company_inventory).pack(pady=10)
+        self.app_button(frame, "View Sales Summary", self.build_sales_summary).pack(pady=10)
+        self.app_button(frame, "View Expense Pie Chart", self.build_company_expenses_chart).pack(pady=10)
+        self.app_button(frame, "Add New Product", self.build_add_product_page).pack(pady=10)
+        self.app_button(frame, "Finish Session", self.build_user_select).pack(pady=10)
 
     # ------------------------------------------------------------
-    # Company — Inventory List
+    # Add New Product Page
+    # ------------------------------------------------------------
+    # def build_add_product_page(self):
+    #     self.clear()
+    #     tk.Label(self.root, text="Add New Product", font=("Arial", 18), bg="#2c2c2c", fg="white").pack(pady=15)
+    #
+    #     frame = tk.Frame(self.root, bg="#2c2c2c")
+    #     frame.pack(pady=10, padx=20)
+    #
+    #     labels = ["Name:", "Cost:", "Price:", "Manufacturer:", "Initial Stock:"]
+    #     entries = []
+    #
+    #     for i, text in enumerate(labels):
+    #         tk.Label(frame, text=text, bg="#2c2c2c", fg="white").grid(row=i, column=0, sticky="e", padx=5, pady=5)
+    #         entry = tk.Entry(frame)
+    #         entry.grid(row=i, column=1, padx=5, pady=5)
+    #         entries.append(entry)
+    #
+    #     def submit():
+    #         try:
+    #             name = entries[0].get().strip()
+    #             cost = float(entries[1].get())
+    #             price = float(entries[2].get())
+    #             manu = entries[3].get().strip()
+    #             stock = int(entries[4].get())
+    #
+    #             if not name or not manu:
+    #                 raise ValueError("Name and Manufacturer cannot be empty.")
+    #
+    #             new_product = self.inventory.add_product(name, cost, price, manu, stock)
+    #
+    #             # Sync company data
+    #             self.company.products = self.inventory.products
+    #             self.company.total_earnings = self.inventory.total_earnings
+    #
+    #             messagebox.showinfo("Success", f"Product added!\nUPC: {new_product.code}\nName: {new_product.product_name}")
+    #             self.build_company_main()
+    #
+    #         except Exception as e:
+    #             messagebox.showerror("Error", f"Invalid input: {e}")
+    #
+    #     self.app_button(frame, "Add Product", submit).pack(pady=15)
+    #     self.app_button(frame, "Back", self.build_company_main).pack(pady=5)
+
+    # ------------------------------------------------------------
+    # Company Inventory
     # ------------------------------------------------------------
     def build_company_inventory(self):
         self.clear()
-        tk.Label(self.root, text="Inventory Overview", font=("Arial", 18)).pack(pady=10)
+        tk.Label(self.root, text="Inventory Overview", font=("Arial", 18), bg="#2c2c2c", fg="white").pack(pady=10)
 
-        box = tk.Listbox(self.root, width=60, height=12)
-        box.pack(pady=5)
+        frame = tk.Frame(self.root, bg="#2c2c2c")
+        frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        # Using the old attribute names that exist in your current Product class
+        scrollbar = tk.Scrollbar(frame)
+        scrollbar.pack(side="right", fill="y")
+
+        box = tk.Listbox(frame, width=80, height=max(len(self.inventory.products), 10),
+                         font=("Arial", 12),
+                         yscrollcommand=scrollbar.set,
+                         bg="#1c1c1c", fg="white",
+                         selectbackground="#8B0000")
+        box.pack(side="left", fill="both", expand=True, pady=10)
+
+        scrollbar.config(command=box.yview)
+
         for p in self.inventory.products:
             line = f"{p.product_name} | ${p.selling_price:.2f} | Stock: {p.stock}"
             box.insert(tk.END, line)
 
-        tk.Button(self.root, text="Back", command=self.build_company_main).pack(pady=10)
-
+        self.app_button(self.root, "Back", self.build_company_main).pack(pady=10)
 
     # ------------------------------------------------------------
-    # Company — Sales Summary
+    # Sales Summary
     # ------------------------------------------------------------
     def build_sales_summary(self):
         self.clear()
-
-        tk.Label(self.root, text="Sales Summary", font=("Arial", 18)).pack(pady=10)
-
-        tk.Label(self.root,
-                 text=f"Total Earnings: ${self.inventory.total_earnings:.2f}",
-                 font=("Arial", 14)).pack(pady=10)
-
-        tk.Button(self.root, text="Back", command=self.build_company_main).pack(pady=20)
-
+        tk.Label(self.root, text="Sales Summary", font=("Arial", 18), fg="white", bg="#1c1c1c").pack(pady=10)
+        tk.Label(self.root, text=f"Total Earnings: ${self.inventory.total_earnings:.2f}",
+                 font=("Arial", 14), fg="white", bg="#1c1c1c").pack(pady=5)
+        self.app_button(self.root, "Back", self.build_company_main).pack(pady=20)
 
     # ------------------------------------------------------------
-    # Company — Expense Pie Chart
+    # Expense Pie Chart
     # ------------------------------------------------------------
     def build_company_expenses_chart(self):
         self.clear()
+        tk.Label(self.root, text="Expense Distribution", font=("Arial", 18), fg="white", bg="#1c1c1c").pack(pady=10)
 
-        tk.Label(self.root, text="Expense Distribution", font=("Arial", 18)).pack(pady=10)
-
-        # Sync inventory values again (CompanyExpenses inherits Inventory in this base version)
         self.company.products = self.inventory.products
         self.company.total_earnings = self.inventory.total_earnings
 
-        data = self.company.percentages()
-        labels = list(data.keys())
-        values = list(data.values())
+        percentages = self.company.percentages()
+        labels = list(percentages.keys())
+        values = list(percentages.values())
 
         fig, ax = plt.subplots(figsize=(4.5, 4.5))
         ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=140)
@@ -167,92 +230,43 @@ class ShoppingApp:
         canvas = FigureCanvasTkAgg(fig, master=self.root)
         canvas.draw()
         canvas.get_tk_widget().pack()
-
         plt.close(fig)
 
-        tk.Button(self.root, text="Back", command=self.build_company_main).pack(pady=10)
+        self.app_button(self.root, "Back", self.build_company_main).pack(pady=10)
 
     # ------------------------------------------------------------
-    # add new product
-    # ------------------------------------------------------------
-    def build_add_product_page(self):
-        self.clear()
-
-        tk.Label(self.root, text="Add New Product", font=("Arial", 18)).pack(pady=15)
-
-        frame = tk.Frame(self.root)
-        frame.pack(pady=10)
-
-        labels = ["Name:", "Cost:", "Price:", "Manufacturer:", "Initial Stock:"]
-        entries = []
-
-        for i, text in enumerate(labels):
-            tk.Label(frame, text=text).grid(row=i, column=0, sticky="e", padx=5, pady=5)
-            entry = tk.Entry(frame)
-            entry.grid(row=i, column=1, padx=5, pady=5)
-            entries.append(entry)
-
-        def submit():
-            try:
-                name = entries[0].get()
-                cost = float(entries[1].get())
-                price = float(entries[2].get())
-                manu = entries[3].get()
-                stock = int(entries[4].get())
-
-                if name.strip() == "" or manu.strip() == "":
-                    raise ValueError("Fields cannot be empty.")
-
-                new_p = self.inventory.add_product(name, cost, price, manu, stock)
-
-                messagebox.showinfo(
-                    "Success",
-                    f"Product added!\nUPC: {new_p.code}\nName: {new_p.product_name}"
-                )
-
-                # Refresh company and user data
-                self.company.products = self.inventory.products
-                self.company.total_earnings = self.inventory.total_earnings
-
-                self.build_company_main()
-
-            except Exception as e:
-                messagebox.showerror("Error", f"Invalid input: {e}")
-
-        tk.Button(self.root, text="Add Product", width=20, command=submit).pack(pady=15)
-        tk.Button(self.root, text="Back", width=20, command=self.build_company_main).pack(pady=5)
-
-    # ------------------------------------------------------------
-    # Customer Main Page
+    # Customer Page
     # ------------------------------------------------------------
     def build_customer_main(self):
         self.clear()
+        tk.Label(self.root, text="Welcome, Customer!", font=("Arial", 16), fg="white", bg="#1c1c1c").pack(pady=10)
 
-        tk.Label(self.root, text="Welcome, Customer!", font=("Arial", 16)).pack(pady=10)
+        frame = tk.Frame(self.root, bg="#2c2c2c")
+        frame.pack(pady=10, padx=20)
 
-        frame = tk.Frame(self.root)
-        frame.pack(pady=10)
+        tk.Label(frame, text="Available Products:", bg="#2c2c2c", fg="white", font=("Arial", 14)).pack(pady=5)
 
-        tk.Label(frame, text="Available Products:").grid(row=0, column=0, pady=3)
+        scrollbar = tk.Scrollbar(frame)
+        scrollbar.pack(side="right", fill="y")
 
-        self.product_list = tk.Listbox(frame, width=60, height=10)
-        self.product_list.grid(row=1, column=0)
+        self.product_list = tk.Listbox(frame, width=80, height=len(self.inventory.products),
+                                       bg="#1c1c1c", fg="white",
+                                       selectbackground="#8B0000",
+                                       yscrollcommand=scrollbar.set,
+                                       font=("Arial", 12))
+        self.product_list.pack(side="left", fill="both", expand=True)
+        scrollbar.config(command=self.product_list.yview)
 
-        # Show the old attribute names
         for p in self.inventory.products:
             line = f"{p.code} | {p.product_name} - ${p.selling_price:.2f} | Stock: {p.stock}"
             self.product_list.insert(tk.END, line)
 
-        tk.Button(frame, text="Add to Cart", command=self.add_to_cart).grid(row=2, column=0, pady=10)
-
-        tk.Button(self.root, text="View Cart / Checkout", width=20,
-                  command=self.build_cart_page).pack(pady=5)
-
-        tk.Button(self.root, text="Back", command=self.build_user_select).pack(pady=5)
-
+        self.app_button(frame, "Add to Cart", self.add_to_cart).pack(pady=10)
+        self.app_button(self.root, "View Cart / Checkout", self.build_cart_page).pack(pady=5)
+        self.app_button(self.root, "Back", self.build_user_select).pack(pady=5)
 
     # ------------------------------------------------------------
-    # Add to Cart (NO STOCK MODIFIED HERE)
+    # Add to Cart
     # ------------------------------------------------------------
     def add_to_cart(self):
         selection = self.product_list.curselection()
@@ -260,57 +274,128 @@ class ShoppingApp:
             messagebox.showwarning("No selection", "Please select a product.")
             return
 
-        product = self.inventory.products[selection[0]]
+        index = selection[0]
+        product = self.inventory.products[index]
 
-        if product.stock <= 0:
-            messagebox.showerror("Out of Stock", f"{product.product_name} is unavailable.")
-            return
+        # Check if already in cart
+        for item in self.cart:
+            if item["product"] == product:
+                item["quantity"] += 1
+                product.update_stock(1)
+                messagebox.showinfo("Added", f"{product.product_name} quantity increased in cart!")
+                self.build_customer_main()
+                return
 
-        # Do NOT modify stock yet — only on checkout
-        self.cart.append(product)
+        self.cart.append({"product": product, "quantity": 1})
+        product.update_stock(1)
         messagebox.showinfo("Added", f"{product.product_name} added to cart!")
-
         self.build_customer_main()
-
 
     # ------------------------------------------------------------
     # Cart Page
     # ------------------------------------------------------------
     def build_cart_page(self):
         self.clear()
+        tk.Label(self.root, text="Your Cart", font=("Arial", 16), fg="white", bg="#1c1c1c").pack(pady=10)
 
-        tk.Label(self.root, text="Your Cart", font=("Arial", 16)).pack(pady=10)
-
-        cart_box = tk.Listbox(self.root, width=50, height=8)
-        cart_box.pack()
+        frame = tk.Frame(self.root, bg="#2c2c2c")
+        frame.pack(fill="both", expand=True, pady=10, padx=20)
 
         total_price = 0
-        for p in self.cart:
-            cart_box.insert(tk.END, f"{p.product_name} - ${p.selling_price:.2f}")
-            total_price += p.selling_price
+        for idx, item in enumerate(self.cart):
+            product = item["product"]
+            quantity = item["quantity"]
 
-        tk.Label(self.root, text=f"Total: ${total_price:.2f}", font=("Arial", 14)).pack(pady=10)
+            tk.Label(frame, text=f"{product.product_name} ${product.selling_price:.2f}", width=40,
+                     anchor="w", bg="#2c2c2c", fg="white", font=("Arial", 12)).grid(row=idx, column=0, pady=5)
+            tk.Label(frame, text=f"Quantity: {quantity}", width=15, bg="#2c2c2c", fg="white", font=("Arial", 12)).grid(row=idx, column=1)
 
-        tk.Button(self.root, text="Confirm Purchase",
-                  command=lambda: self.checkout(total_price)).pack(pady=5)
+            tk.Button(frame, text="+", width=3, font=("Arial", 12),
+                      command=lambda i=idx: self.change_quantity(i, 1), bg="#8B0000", fg="white").grid(row=idx, column=2, padx=5)
+            tk.Button(frame, text="-", width=3, font=("Arial", 12),
+                      command=lambda i=idx: self.change_quantity(i, -1), bg="#8B0000", fg="white").grid(row=idx, column=3, padx=5)
 
+            total_price += product.selling_price * quantity
+
+        tk.Label(self.root, text=f"Total: ${total_price:.2f}", font=("Arial", 14), fg="white", bg="#1c1c1c").pack(pady=10)
+
+        tk.Button(self.root, text="Confirm Purchase", command=lambda: self.checkout(total_price)).pack(pady=5)
         tk.Button(self.root, text="Back", command=self.build_customer_main).pack(pady=5)
 
+    ##
+
+    def build_add_product_page(self):
+        self.clear()
+        tk.Label(self.root, text="Add New Product", font=("Arial", 18), bg="#2c2c2c", fg="white").pack(pady=15)
+
+        frame = tk.Frame(self.root, bg="#2c2c2c")
+        frame.pack(pady=10, padx=20)
+
+        labels = ["Name:", "Cost:", "Price:", "Manufacturer:", "Initial Stock:"]
+        entries = []
+
+        for i, text in enumerate(labels):
+            tk.Label(frame, text=text, bg="#2c2c2c", fg="white").grid(row=i, column=0, sticky="e", padx=5, pady=5)
+            entry = tk.Entry(frame)
+            entry.grid(row=i, column=1, padx=5, pady=5)
+            entries.append(entry)
+
+        def submit():
+            try:
+                name = entries[0].get().strip()
+                cost = float(entries[1].get())
+                price = float(entries[2].get())
+                manu = entries[3].get().strip()
+                stock = int(entries[4].get())
+
+                if not name or not manu:
+                    raise ValueError("Name and Manufacturer cannot be empty.")
+
+                new_product = self.inventory.add_product(name, cost, price, manu, stock)
+
+                # Sync company data
+                self.company.products = self.inventory.products
+                self.company.total_earnings = self.inventory.total_earnings
+
+                messagebox.showinfo("Success",
+                                    f"Product added!\nUPC: {new_product.code}\nName: {new_product.product_name}")
+                self.build_company_main()
+
+            except Exception as e:
+                messagebox.showerror("Error", f"Invalid input: {e}")
+
+        # --- Pack buttons outside the frame to avoid mixing pack & grid ---
+        btn_frame = tk.Frame(self.root, bg="#2c2c2c")
+        btn_frame.pack(pady=15)
+        self.app_button(btn_frame, "Add Product", submit).pack(side="left", padx=10)
+        self.app_button(btn_frame, "Back", self.build_company_main).pack(side="left", padx=10)
 
     # ------------------------------------------------------------
-    # Checkout (STOCK IS UPDATED HERE, NOT BEFORE)
+    # Change quantity helper
+    # ------------------------------------------------------------
+    def change_quantity(self, idx, delta):
+        item = self.cart[idx]
+        if delta > 0:
+            if item["product"].stock <= 0:
+                messagebox.showerror("Stock", "No more stock.")
+                return
+            item["quantity"] += 1
+            item["product"].update_stock(1)
+        else:
+            item["quantity"] -= 1
+            item["product"].stock += 1
+            if item["quantity"] == 0:
+                self.cart.pop(idx)
+        self.build_cart_page()
+
+    # ------------------------------------------------------------
+    # Checkout
     # ------------------------------------------------------------
     def checkout(self, total):
         messagebox.showinfo("Thank you!", f"Purchase complete!\nTotal: ${total:.2f}")
-
-        for p in self.cart:
-            p.stock -= 1
-
         self.inventory.total_earnings += total
         self.cart = []
-
         self.build_customer_main()
-
 
     # ------------------------------------------------------------
     # Utility — Clear Screen
@@ -320,11 +405,14 @@ class ShoppingApp:
             widget.destroy()
 
 
-
 # ============================================================
 # Run App
 # ============================================================
 if __name__ == "__main__":
     root = tk.Tk()
+    root.configure(bg="#1c1c1c")
+    root.resizable(True, True)
+    root.state("zoomed")
     app = ShoppingApp(root)
     root.mainloop()
+
