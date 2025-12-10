@@ -12,6 +12,7 @@
 # licensed under a Creative Commons
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
 ####################################################################################
+
 from inventory import *
 
 class CompanyExpenses(Inventory):
