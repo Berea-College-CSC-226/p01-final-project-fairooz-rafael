@@ -1,3 +1,17 @@
+######################################################################
+# Author: Rafael, Fairooz
+# Username: hermozafreitasr, tasniaf
+#
+# Purpose: Create a barcode class to have it associated with a unique product in an inventory store
+#
+######################################################################
+# Acknowledgements:
+#
+# None: Original work
+
+# licensed under a Creative Commons
+# Attribution-Noncommercial-Share Alike 3.0 United States License.
+####################################################################################
 from product import *
 from inventory import *
 

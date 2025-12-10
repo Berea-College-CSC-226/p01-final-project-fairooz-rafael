@@ -1,3 +1,17 @@
+######################################################################
+# Author: Rafael, Fairooz
+# Username: hermozafreitasr, tasniaf
+#
+# Purpose: Create a barcode class to have it associated with a unique product in an inventory store
+#
+######################################################################
+# Acknowledgements:
+#
+# None: Original work
+
+# licensed under a Creative Commons
+# Attribution-Noncommercial-Share Alike 3.0 United States License.
+####################################################################################
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -20,7 +34,7 @@ class Product:
 # -----------------------------
 class Inventory:
     def __init__(self):
-        # Preloaded items (you will later load from text file)
+        # Preloaded items
         self.products = {
             "123456789012": Product("123456789012", "Milk", 3.99),
             "987654321098": Product("987654321098", "Bread", 2.49),
