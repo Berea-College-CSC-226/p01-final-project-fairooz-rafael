@@ -55,7 +55,7 @@ def read_products_file(filename):
 
                 for i in range(5):
                     content = file_content.readline().strip("\n")
-                    key, value = content.split(":", 0)
+                    key, value = content.split(":", 1)
 
                     if key in ["Cost", "Price"]:
                         value = float(value)
