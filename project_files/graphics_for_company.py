@@ -64,9 +64,7 @@ class CompanyGUI:
         plt.close(fig)   # prevents duplicate external windows
 
 
-# -----------------------------
-# Run GUI
-# -----------------------------
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("600x650")

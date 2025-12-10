@@ -20,9 +20,6 @@ from product import Product, read_products_file
 from inventory import Inventory
 
 
-# -----------------------------
-# Main GUI Application
-# -----------------------------
 class ShoppingApp:
     def __init__(self, root):
         self.root = root
@@ -47,9 +44,8 @@ class ShoppingApp:
                   command=self.build_company_login).pack(pady=10)
         #implement the company user here
             #also create the method for login in before seeing a company's interface
-    #
-    # login for the company
-    #
+
+
     def build_company_login(self):
         self.clear()
 
@@ -82,10 +78,10 @@ class ShoppingApp:
 
         tk.Button(self.root, text="Back",
                   command=self.build_user_select).pack(pady=5)
-    #
-    #main screen for the company:
-    #
-    def build_company_main(self):
+
+
+    def build_company_main(self): #main screen for the company:
+
         self.clear()
 
         tk.Label(self.root, text="Company Dashboard", font=("Arial", 18)).pack(pady=20)
@@ -98,9 +94,7 @@ class ShoppingApp:
 
         tk.Button(self.root, text="Back", width=20,
                   command=self.build_user_select).pack(pady=20)
-    #
-    #inventory:
-    #
+
     def build_company_inventory(self):
         self.clear()
         tk.Label(self.root, text="Inventory Overview", font=("Arial", 18)).pack(pady=10)
@@ -123,9 +117,7 @@ class ShoppingApp:
 
         tk.Button(self.root, text="Back", command=self.build_company_main).pack(pady=20)
 
-    # -----------------------------
-    # Page 2 — Customer Shopping Page
-    # -----------------------------
+
     def build_customer_main(self):
         self.clear()
 
@@ -155,9 +147,7 @@ class ShoppingApp:
 
         tk.Button(self.root, text="Back", command=self.build_user_select).pack(pady=5)
 
-    # -----------------------------
-    # Add Selected Product to Cart
-    # -----------------------------
+
     def add_to_cart(self):
         selection = self.product_list.curselection()
         if not selection:
@@ -183,9 +173,7 @@ class ShoppingApp:
         # Refresh product list
         self.build_customer_main()
 
-    # -----------------------------
-    # Page 3 — Cart and Checkout
-    # -----------------------------
+
     def build_cart_page(self):
         self.clear()
 
@@ -208,25 +196,19 @@ class ShoppingApp:
         tk.Button(self.root, text="Back", command=self.build_customer_main).pack(pady=5)
         ##here check if there's something in the cart and hasn't been paid, wipe that off
 
-    # -----------------------------
-    # Final Checkout
-    # -----------------------------
+
     def checkout(self, total):
         messagebox.showinfo("Thank you!", f"Purchase complete!\nTotal: ${total:.2f}")
         self.cart = []
         self.build_customer_main()
 
-    # -----------------------------
-    # Utility: Clear Screen
-    # -----------------------------
+
     def clear(self):
         for widget in self.root.winfo_children():
             widget.destroy()
 
 
-# -----------------------------
-# Run App
-# -----------------------------
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("450x550")
