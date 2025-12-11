@@ -7,7 +7,7 @@
 ######################################################################
 # Acknowledgements:
 #
-# None: Original work
+# None, but using graphics_interface_for_company as reference
 
 # licensed under a Creative Commons
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
@@ -42,7 +42,7 @@ class CompanyGUI:
         self.chart_frame.pack()
 
     def show_pie_chart(self):
-        # Clear old chart if it exists
+        #clear old chart if it exists
         for widget in self.chart_frame.winfo_children():
             widget.destroy()
 
@@ -51,12 +51,12 @@ class CompanyGUI:
         labels = list(percentages.keys())
         values = list(percentages.values())
 
-        # --- Create matplotlib figure ---
+        #create matplotlib figure
         fig, ax = plt.subplots(figsize=(5, 5))
         ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=140)
         ax.set_title("Company Expense Distribution")
 
-        # --- Embed graph inside Tkinter ---
+        #embed graph inside Tkinter
         canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
         canvas.draw()
         canvas.get_tk_widget().pack()

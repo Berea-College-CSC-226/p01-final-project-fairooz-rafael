@@ -292,41 +292,50 @@ class ShoppingApp:
 
 
     # Customer main page
-
     def build_customer_main(self):
         self.clear()
-        tk.Label(self.root, text="Welcome, Customer!", font=("Arial", 16), fg="white", bg="#1c1c1c").pack(pady=10)
+        tk.Label(self.root, text="Welcome, Customer!", font=("Arial", 16),
+                 fg="white", bg="#1c1c1c").pack(pady=10)
 
         frame = tk.Frame(self.root, bg="#2c2c2c")
         frame.pack(pady=10, padx=20)
 
-        tk.Label(frame, text="Available Products:", bg="#2c2c2c", fg="white", font=("Arial", 14)).pack(pady=5)
+        tk.Label(frame, text="Available Products:", bg="#2c2c2c", fg="white",
+                 font=("Arial", 14)).pack(pady=5)
 
         # --- Listbox + scrollbar ---
         scrollbar = tk.Scrollbar(frame)
         scrollbar.pack(side="right", fill="y")
 
-        self.product_list = tk.Listbox(frame, width=80, height=len(self.inventory.products),
-                                       bg="#1c1c1c", fg="white",
-                                       selectbackground="#8B0000",
-                                       yscrollcommand=scrollbar.set,
-                                       font=("Arial", 12))
+        self.product_list = tk.Listbox(
+            frame,
+            width=80,
+            height=12,
+            bg="#1c1c1c",
+            fg="white",
+            selectbackground="#8B0000",
+            yscrollcommand=scrollbar.set,
+            font=("Arial", 12)
+        )
         self.product_list.pack(side="left", fill="both", expand=True)
         scrollbar.config(command=self.product_list.yview)
 
-        # populate listbox
+        #populate listbox
+        self.product_list.delete(0, tk.END)
         for p in self.inventory.products:
             line = f"{p.code} | {p.product_name} - ${p.selling_price:.2f} | Stock: {p.stock}"
             self.product_list.insert(tk.END, line)
-        # note: rebuild every time page is loaded to reflect stock changes
-        # alternative: only update changed products for efficiency
 
-        self.app_button(frame, "Add to Cart", self.add_to_cart).pack(pady=10)
-        self.app_button(self.root, "View Cart / Checkout", self.build_cart_page).pack(pady=5)
-        self.app_button(self.root, "Back", self.build_user_select).pack(pady=5)
+        tk.Button(frame, text="Add to Cart", command=self.add_to_cart,
+                  bg="#8B0000", fg="white", font=("Arial", 12)).pack(pady=10)
 
+        tk.Button(self.root, text="View Cart / Checkout",
+                  width=20, bg="#8B0000", fg="white",
+                  command=self.build_cart_page).pack(pady=5)
 
-    # Add to cart
+        tk.Button(self.root, text="Back", width=20,
+                  bg="#8B0000", fg="white",
+                  command=self.build_user_select).pack(pady=5)
 
     def add_to_cart(self):
         selection = self.product_list.curselection()
@@ -334,99 +343,63 @@ class ShoppingApp:
             messagebox.showwarning("No selection", "Please select a product.")
             return
 
-        index = selection[0]
-        product = self.inventory.products[index]
+        product = self.inventory.products[selection[0]]
 
-        # check if already in cart
-        for item in self.cart:
-            if item["product"] == product:
-                item["quantity"] += 1
-                product.update_stock(1)
-                messagebox.showinfo("Added", f"{product.product_name} quantity increased in cart!")
-                self.build_customer_main()
-                return
+        if product.stock <= 0:
+            messagebox.showerror("Out of Stock", f"{product.product_name} is unavailable.")
+            return
 
-        self.cart.append({"product": product, "quantity": 1})
-        product.update_stock(1)
+        # old logic, do NOT modify stock now
+        self.cart.append(product)
+
         messagebox.showinfo("Added", f"{product.product_name} added to cart!")
         self.build_customer_main()
 
-
-    # Cart page
-
     def build_cart_page(self):
-        """
-        Shows cart items with quantity controls and total price.
-        Could later add remove-all button, discounts, etc.
-        """
         self.clear()
-        tk.Label(self.root, text="Your Cart", font=("Arial", 16), fg="white", bg="#1c1c1c").pack(pady=10)
+
+        tk.Label(self.root, text="Your Cart", font=("Arial", 16),
+                 fg="white", bg="#1c1c1c").pack(pady=10)
 
         frame = tk.Frame(self.root, bg="#2c2c2c")
-        frame.pack(fill="both", expand=True, pady=10, padx=20)
+        frame.pack(pady=10, padx=20)
+
+        cart_box = tk.Listbox(
+            frame, width=60, height=10,
+            bg="#1c1c1c", fg="white",
+            selectbackground="#8B0000",
+            font=("Arial", 12)
+        )
+        cart_box.pack()
 
         total_price = 0
-        for idx, item in enumerate(self.cart):
-            product = item["product"]
-            quantity = item["quantity"]
+        for p in self.cart:
+            cart_box.insert(tk.END, f"{p.product_name} - ${p.selling_price:.2f}")
+            total_price += p.selling_price
 
-            tk.Label(frame, text=f"{product.product_name} ${product.selling_price:.2f}", width=40,
-                     anchor="w", bg="#2c2c2c", fg="white", font=("Arial", 12)).grid(row=idx, column=0, pady=5)
-            tk.Label(frame, text=f"Quantity: {quantity}", width=15, bg="#2c2c2c", fg="white", font=("Arial", 12)).grid(
-                row=idx, column=1)
+        tk.Label(self.root, text=f"Total: ${total_price:.2f}",
+                 font=("Arial", 14), fg="white", bg="#1c1c1c").pack(pady=10)
 
-            tk.Button(frame, text="+", width=3, font=("Arial", 12),
-                      command=lambda i=idx: self.change_quantity(i, 1), bg="#8B0000", fg="white").grid(row=idx,
-                                                                                                       column=2, padx=5)
-            tk.Button(frame, text="-", width=3, font=("Arial", 12),
-                      command=lambda i=idx: self.change_quantity(i, -1), bg="#8B0000", fg="white").grid(row=idx,
-                                                                                                        column=3,
-                                                                                                        padx=5)
+        tk.Button(self.root, text="Confirm Purchase",
+                  bg="#8B0000", fg="white",
+                  command=lambda: self.checkout(total_price)).pack(pady=10)
 
-            total_price += product.selling_price * quantity
-
-        tk.Label(self.root, text=f"Total: ${total_price:.2f}", font=("Arial", 14), fg="white", bg="#1c1c1c").pack(
-            pady=10)
-
-        tk.Button(self.root, text="Confirm Purchase", command=lambda: self.checkout(total_price)).pack(pady=5)
-        tk.Button(self.root, text="Back", command=self.build_customer_main).pack(pady=5)
-
-
-    # Change quantity helper
-
-    def change_quantity(self, idx, delta):
-        """
-        Adjust quantity in cart by delta (+1 or -1).
-        Remove item if quantity hits 0.
-        """
-        item = self.cart[idx]
-        if delta > 0:
-            if item["product"].stock <= 0:
-                messagebox.showerror("Stock", "No more stock.")
-                return
-            item["quantity"] += 1
-            item["product"].update_stock(1)
-        else:
-            item["quantity"] -= 1
-            item["product"].stock += 1
-            if item["quantity"] == 0:
-                self.cart.pop(idx)
-        self.build_cart_page()  # refresh page to reflect new quantity
-
-
-    # Checkout
+        tk.Button(self.root, text="Back",
+                  bg="#8B0000", fg="white",
+                  command=self.build_customer_main).pack(pady=10)
 
     def checkout(self, total):
-        """
-        Confirm purchase, add to earnings, clear cart.
-        """
         messagebox.showinfo("Thank you!", f"Purchase complete!\nTotal: ${total:.2f}")
+
+        # OLD LOGIC — stock reduced after purchase
+        for p in self.cart:
+            p.stock -= 1
+
         self.inventory.total_earnings += total
         self.cart = []
+
         self.build_customer_main()
 
-
-    # Utility: clear screen
 
     def clear(self):
         """
@@ -446,3 +419,6 @@ if __name__ == "__main__":
     root.state("zoomed")
     app = ShoppingApp(root)
     root.mainloop()
+
+
+#corregir el boton que tiene + - en el carrito

@@ -8,7 +8,7 @@
 # Acknowledgements:
 #
 # Revised with ChatGPT
-
+#
 # licensed under a Creative Commons
 # Attribution-Noncommercial-Share Alike 3.0 United States License.
 ####################################################################################
@@ -40,30 +40,19 @@ class Inventory:
         return False
 
     def show_inventory(self):
+        """shows the inventory."""
         print("Current Inventory:")
         for p in self.products:
             print(p.display_info())
 
     def show_summary(self):
+        """shows the summary of the inventory."""
         print("Sales Summary")
         print("Total Earnings:", self.total_earnings)
         print("Products Sold:")
         for p in self.products:
             sold = p.initial_stock - p.stock # calculates sold amount based on initial stock
             print(p.upc.product_name, ":", sold, "sold")
-
-    # def add_product(self, name, cost, price, manu, stock):
-    #     # Auto-generate UPC (your preference from UPC class)
-    #     new_p = Product(
-    #         code=None,     # UPC class will auto-generate inside
-    #         name=name,
-    #         cost=cost,
-    #         price=price,
-    #         manu=manu,
-    #         stock=stock
-    #     )
-    #     self.products.append(new_p)
-    #     return new_p
 
     def add_product(self, name, cost, price, manu, stock):
         """adds a new product after validating inputs."""
@@ -89,6 +78,8 @@ class Inventory:
         self.products.append(new_p)
         return new_p
 def main():
+    """Simple tester for creating inventory and trying methods"""
+
     products = read_products_file("products.txt")  # loads initial list from file
     store = Inventory(products)
 

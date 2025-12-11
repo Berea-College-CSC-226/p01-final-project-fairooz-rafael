@@ -19,12 +19,16 @@ from upc import UPC
 
 
 class Product(UPC):
+    """Represents a product with UPC attributes plus stock tracking."""
+
     def __init__(self, code=None, name=None, cost=None, price=None, manu=None, stock=0):
+        """Initialize product data and starting stock."""
         super().__init__(code, name, cost, price, manu)  # inherits upc attributes
         self.stock = stock
         self.initial_stock = stock
 
     def update_stock(self, quantity):
+        """Reduce stock if quantity available."""
 
         if quantity <= self.stock:
             self.stock -= quantity
@@ -34,6 +38,7 @@ class Product(UPC):
             return False
 
     def display_info(self):
+        """Return product information in tuple form."""
 
         return ("Name:", self.product_name,
                 "Price:", self.selling_price,
@@ -42,6 +47,8 @@ class Product(UPC):
 
 
 def read_products_file(filename):          #using hw07 as source file to read product from text file
+    """Read product data from a formatted text file."""
+
     if not os.path.isfile(filename):
         print(filename, "not found!")
         return []
@@ -106,6 +113,7 @@ def read_products_file(filename):          #using hw07 as source file to read pr
 
 
 def main():
+    """Simple tester for reading and showing products."""
     filename = input("Enter product file: ").strip()
     if not os.path.isfile(filename):
         print(filename, "not found! Using default 'products.txt'")

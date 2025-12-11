@@ -3,7 +3,7 @@
 ## Instructions
 
 Exclamation Marks indicate action items; you should remove these emoji as you complete/update the items which 
-  they accompany. (This means that your final README should have no ❗️in it!)
+  they accompany. 
 
 **Author(s)**: Fairooz, Rafael
 
@@ -13,26 +13,27 @@ Exclamation Marks indicate action items; you should remove these emoji as you co
 
 ## Milestone 1: Setup, Planning, Design
 
-️**Title**: `Super system for inventory`
+️**Title**: `Super system for inventory - Amigazon`
 
 **Purpose**: `Help a company keep track of their products and implement an effective expenses sheet`
 
-**Source Assignment(s)**: `List which original assignments you will base your project on? Replace this block of text.`
+**Source Assignment(s)**: `Used inspiration from homework 7 and 9, for reading data from a file and using upc in real life application`
 
 ️**CRC Card(s)**:
-  - Create a CRC card for each class that your project will implement.
-  - See this link for a sample CRC card and a template to use for your own cards (you will have to make a copy to edit):
-    [CRC Card Example](https://docs.google.com/document/d/1JE_3Qmytk_JGztRqkPXWACJwciPH61VCx3idIlBCVFY/edit?usp=sharing)
-  - Tables in markdown are not easy, so we suggest saving your CRC card as an image and including the image(s) in the 
-    README. You can do this by saving an image in the repository and linking to it. See the sample CRC card below - 
-    and REPLACE it with your own:
+  
 
+️**Products class**:
 
  ![product class CRC.png](image/product%20class%20CRC.png "clase inventario")
 
+️**upc class**:
+
 ![UPC class CRC.png](image/UPC%20class%20CRC.png "UPC")
 
+️**inventory class**:
+
 ![inventory class CRC.png](image/inventory%20class%20CRC.png "xyz")
+
 
 **Branches**: This project will **require** effective use of git. 
 
@@ -42,7 +43,7 @@ into your own, following the process we've discussed in previous assignments, th
 
 ```
     Branch 1 starting name: rafael
-    Branch 2 starting name: fairooz
+    Branch 2 starting name: fairooz_newApproach
 ```
 
 ### References 
@@ -54,7 +55,8 @@ section as you go. DO NOT forget about it!
 
 ```
     UPC barcodes Homework 9
-    It's in your genes Homework 8
+    It's in your genes Homework 8 (didn't use code, just logic)
+    Oh the places that you will go Homework 7
 ```
 
 ---
@@ -107,7 +109,7 @@ in PyCharm.
 After running the program in PyCharm, a window will open saying it's a Company inventory App with option of user type: Customer or Company.
 Then in the next slide,
 if you select "Customer" : You can see a list of products, add products to your cart, check your cart, change quantities, and make a purchase.
-if you select "Company" : Log in with username "admin" and password "1234" to see the company dashboard. You can view the inventory, check total earnings, and see a pie chart of expenses & revenue.
+if you select "Company" : Log in with username "admin" and password "1234" to see the company dashboard. You can view the inventory, check total earnings, and see a pie chart of expenses & revenue. Also, you can create new products that will be updated in both interfaces.
 And you can use the buttons on each screen to move between pages.
 
 ### Errors and Constraints
@@ -127,11 +129,11 @@ Each partner should write three to four well-written paragraphs address the foll
 - How well did you work with your partner? What made it go well? What made it challenging?
 
 ```
-    Partner 1: **Replace this with your reflection
+    Partner 1: 
 ```
 
 ```
-    Partner 2: **Replace this with your reflection
+    Partner 2: 
 ```
 
 ---

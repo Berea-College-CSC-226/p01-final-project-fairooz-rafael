@@ -2,7 +2,7 @@
 # Author: Rafael, Fairooz
 # Username: hermozafreitasr, tasniaf
 #
-# Purpose: Create a barcode class to have it associated with a unique product in an inventory store
+# Purpose: Analyze preloaded information of the company's expenses, get the percentages of those values and pass them as a dictionary
 #
 ######################################################################
 # Acknowledgements:
@@ -60,6 +60,8 @@ class CompanyExpenses(Inventory):
             print(k, v)
 
 def main():
+    """Simple tester for calculating statistics after selling a product."""
+
     company = CompanyExpenses(rent=800, salaries=1200)
 
     company.show_inventory()

@@ -2,7 +2,7 @@
 # Author: Rafael, Fairooz
 # Username: hermozafreitasr, tasniaf
 #
-# Purpose: Create a barcode class to have it associated with a unique product in an inventory store
+# Purpose: test suite for the inventory class, making sure values are being created correctly and checking methods
 #
 ######################################################################
 # Acknowledgements:

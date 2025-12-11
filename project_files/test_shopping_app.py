@@ -2,7 +2,7 @@
 # Author: Rafael, Fairooz
 # Username: hermozafreitasr, tasniaf
 #
-# Purpose: sociated with a unique product in an inventory store
+# Purpose: try some of the functions from the main shopping app
 #
 ######################################################################
 # Acknowledgements:
@@ -17,10 +17,8 @@ import pytest
 from inventory import Inventory
 from product import Product
 from graphics_interface_for_company import CompanyExpenses
-from interating_new_features import ShoppingApp
+from shopping_app import ShoppingApp
 import tkinter as tk
-
-
 
 
 def test_inventory_initial_load():
