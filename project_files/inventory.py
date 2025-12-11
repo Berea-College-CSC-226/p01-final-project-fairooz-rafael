@@ -17,21 +17,24 @@ from product import *
 
 
 class Inventory:
+    """manages a collection of products, stock updates, and earnings."""
     def __init__(self, products=None):
         self.products = products if products else read_products_file("products.txt")
         self.total_earnings = 0
 
     def get_all(self):
+        """returns a shallow copy of all product objects."""
         return list(self.products)
 
     def sell_product(self, code, quantity=1):
+        """sells an item by its barcode and updates earnings."""
         for p in self.products:
-            if p.upc.code == code:
-                if p.update_stock(quantity):
+            if p.upc.code == code:  # matches product by barcode
+                if p.update_stock(quantity):  # checks and subtracts stock
                     self.total_earnings += p.upc.selling_price * quantity
                     print(quantity, p.upc.product_name, "sold")
                     return True
-                return False
+                return False  #if stock not sufficient
 
         print("Product", code, "not found!")
         return False
@@ -46,7 +49,7 @@ class Inventory:
         print("Total Earnings:", self.total_earnings)
         print("Products Sold:")
         for p in self.products:
-            sold = p.initial_stock - p.stock
+            sold = p.initial_stock - p.stock # calculates sold amount based on initial stock
             print(p.upc.product_name, ":", sold, "sold")
 
     # def add_product(self, name, cost, price, manu, stock):
@@ -63,6 +66,7 @@ class Inventory:
     #     return new_p
 
     def add_product(self, name, cost, price, manu, stock):
+        """adds a new product after validating inputs."""
         # Validation for tests
         if not name or not manu:
             raise ValueError("Name and manufacturer cannot be empty.")
@@ -74,7 +78,7 @@ class Inventory:
             raise ValueError("Stock cannot be negative.")
 
         new_p = Product(
-            code=generate_random_upc(),
+            code=generate_random_upc(),  # auto-generate upc for new product
             name=name,
             cost=cost,
             price=price,
@@ -85,7 +89,7 @@ class Inventory:
         self.products.append(new_p)
         return new_p
 def main():
-    products = read_products_file("products.txt")
+    products = read_products_file("products.txt")  # loads initial list from file
     store = Inventory(products)
 
     store.show_inventory()

@@ -20,7 +20,7 @@ from upc import UPC
 
 class Product(UPC):
     def __init__(self, code=None, name=None, cost=None, price=None, manu=None, stock=0):
-        super().__init__(code, name, cost, price, manu)  # inherit UPC attributes
+        super().__init__(code, name, cost, price, manu)  # inherits upc attributes
         self.stock = stock
         self.initial_stock = stock
 
@@ -41,27 +41,24 @@ class Product(UPC):
                 "Stock:", self.stock)
 
 
-def read_products_file(filename):
+def read_products_file(filename):          #using hw07 as source file to read product from text file
     if not os.path.isfile(filename):
         print(filename, "not found!")
         return []
 
     products = []
     with open(filename, 'r', encoding='utf-8') as file_content:
-        # read first non-empty line and parse number of products
-        first = ""
+        first = ""     # read first non-empty line and parse number of products
         while first.strip() == "":
             first = file_content.readline()
-            if first == "":
-                # empty file
+            if first == "":  # empty file
                 return []
-        num_products = int(first.strip())
+        num_products = int(first.strip()) # tells how many products to expect
 
         for _ in range(num_products):
             product_data = []
 
-            # read exactly 5 non-empty lines for each product
-            lines_read = 0
+            lines_read = 0 # read exactly 5 non-empty lines for each product
             while lines_read < 5:
                 content = file_content.readline()
                 if not content:
@@ -69,16 +66,16 @@ def read_products_file(filename):
                 content = content.strip("\n").strip()
                 if content == "":
                     continue
-                # split into key/value with maxsplit=1
+
                 if ":" in content:
                     key, value = content.split(":", 1)
                     key = key.strip()
                     value = value.strip()
                 else:
-                    # fallback: treat whole line as value
-                    key, value = None, content.strip()
+                    key, value = None, content.strip() # handles malformed or missing keys
 
-                if key in ["Cost", "Price"]:
+
+                if key in ["Cost", "Price"]:  # convert numeric fields to correct types
                     try:
                         value = float(value)
                     except Exception:
@@ -88,11 +85,11 @@ def read_products_file(filename):
                         value = int(value)
                     except Exception:
                         value = 0
-                # keep the raw value otherwise (Name, Manufacturer)
+                # keep the raw value, otherwise (Name, Manufacturer)
                 product_data.append(value)
                 lines_read += 1
 
-            # product_data should now contain [Name, Cost, Price, Manufacturer, Stock]
+            #read the text file before constructing product
             if len(product_data) == 5:
                 p = Product(code=generate_random_upc(),
                             name=product_data[0],
@@ -102,7 +99,7 @@ def read_products_file(filename):
                             stock=product_data[4])
                 products.append(p)
             else:
-                # malformed product entry; skip
+                # skip the malformed product entry;
                 print("[WARN] malformed product entry, skipping:", product_data)
 
     return products
