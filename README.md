@@ -1,10 +1,5 @@
 # CSC226 Final Project
 
-## Instructions
-
-Exclamation Marks indicate action items; you should remove these emoji as you complete/update the items which 
-  they accompany. 
-
 **Author(s)**: Fairooz, Rafael
 
 ️**Google Doc Link**: https://docs.google.com/document/d/1TBcWua-ldKdQVddmQOZm22J62i7bgtcS_1MXITquLJs/edit?usp=sharing
@@ -48,15 +43,13 @@ into your own, following the process we've discussed in previous assignments, th
 
 ### References 
 
-Throughout this project, you will likely use outside resources. Reference all ideas which are not your own, 
-and describe how you integrated the ideas or code into your program. This includes online sources, people who have 
-helped you, AI tools you've used, and any other resources that are not solely your own contribution. Update this 
-section as you go. DO NOT forget about it!
-
 ```
-    UPC barcodes Homework 9
+    UPC barcodes Homework 9 - we reused the logic behind the upc code making it adaptable
     It's in your genes Homework 8 (didn't use code, just logic)
-    Oh the places that you will go Homework 7
+    Oh the places that you will go Homework 7 - used to read text files and load data from a text file
+    Tkinter library - used to build our graphic interface
+    Listbox, and Scrollbar documentation - used on widgets for the interface
+    ChatGPT - used in debugging and merging of versions of code
 ```
 
 ---
@@ -129,11 +122,21 @@ Each partner should write three to four well-written paragraphs address the foll
 - How well did you work with your partner? What made it go well? What made it challenging?
 
 ```
-    Partner 1: 
+    Partner 1: I would say I had fun in all the duration of this project. A day before the presentation we met with Fairooz to make the final refinements on it, and we saw that the project indeed came alive with the exception of a more practical and appealing design. The initial idea we had was just selling objects and along the way we thought of more features like login or adding new products to an inventory. 
+I’d say our main idea and guide stayed the same, however when we worked deeper on the project and started using multiple classes at the same time, we changed the design and functionality from our initial expectations, which turned out well because the project works.
+Some of the challenges were merging without a doubt, because we first divided functionality thinking that the “upc” class had a lot of relevance until we saw that we were using it on a wrong way. So from there, we had different codes and those differences continued to grow in the coming weeks, the last week being the most difficult to debug and merge in terms of functionality. For the ending, Fairooz and me divided the graphical interface from the functioning of the classes, and bringing those together without affecting the others was a difficult process. Plus, as I’ve also mentioned on my evaluation, I didn’t really catch up much with Graphic interface, so it made it harder. 
+At the end, with this experience I would definitely change our planning and the way we communicate about functionality of a program. Neither of us did much documentation in the first weeks and that also took a bit of time to understand. So, for a future project I’d work harder on the initial planning and foundation, and besides that I’d try to be more prepared and aligned with the code that we require to execute our ideas.
+Finally, working with Fairooz was a good experience. We were very understandable and flexible when needed, also she took on a lot of the debugging and merging; we also met multiple times and that facilitated understanding each other, to the point where we did driver navigator work too. The only challenges I experienced were meeting deadlines and that the first weeks she was not really updating and merging her branches properly. 
 ```
 
 ```
-    Partner 2: 
+    Partner 2: We selected this project to test ourselves in an area we hadn’t seen in class. Our initial design looks very similar to the final result, but we changed from the logic of how getting there a lot. For example, we thought of the classes and then changed their form.
+For our final project, we selected this one because I feel it is something useful and also interesting to learn. At first I think it will be simple, like only showing products and letting people buy. But when we start working more, I see that it can be more than that. The final project is close to our first design, but also different in good ways.
+I learned many things, especially how classes connect and how reading files and GUI work together. 
+The hardest part was understanding Rafael’s pace, because he was planning ahead too much and that confused me sometimes. Also, at some point I didn’t understood what was different from our codes. We worked separately for long time, so when we tried to combine everything, many errors appeared. In the last week we had many issues with merging.
+If I could do it again, I would plan more from the start and write more notes, so both of us stay on the same track. Also, time planning would be important.
+Working with my partner was good. Rafael is experienced coder and helped me a lot to understand how he thought of the problems to solve. I like how we distributed the work. The challenge was merging and keeping our work updated, but overall, we communicated well and solved most of the problems.
+
 ```
 
 ---
